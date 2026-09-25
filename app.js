@@ -669,7 +669,7 @@ function draw(forExport = false) {
   });
   
   ctx.textAlign = 'right';
-  text('MADE BY @COLT', W - 48, 40, 10, palette.muted);
+  text('CREATED BY @COLT', W - 48, 45, 10, palette.muted);
   ctx.textAlign = 'left';
   
   $('dimensions').textContent = `${W} × ${H} PX`;
