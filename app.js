@@ -46,7 +46,7 @@ const THEMES = [
   { id: 'crimson', name: 'RED WOLFIE', label: '레드 울피', accent: '#ff2949', bg1: '#190006', bg2: '#000000' },
   { id: 'pink', name: 'LOVE PINK', label: '러브 핑크', accent: '#ff69b4', bg1: '#fff0f5', bg2: '#ffe6f0' },
   { id: 'cobalt', name: 'DRAGON BLUE', label: '드래곤 블루', accent: '#6eacff', bg1: '#00173D', bg2: '#010713' },
-  { id: 'violet', name: 'GRAPE JUICE', label: '그레이프 주스', accent: '#9c27b0', bg1: '#f3e5f5', bg2: '#e1bee7' }
+  { id: 'violet', name: 'GRAPE JUICE', label: '그레이프 주스', accent: '#9c27b0', bg1: '#f3e5f5', bg2: '#e1bee7' },
   { id: 'cyan', name: 'CYAN LINK', label: '시안 링크', accent: '#52ded3', bg1: '#081c21', bg2: '#02090d' },
   { id: 'amber', name: 'AMBER CORE', label: '앰버 코어', accent: '#ffc367', bg1: '#261c12', bg2: '#0c0c0b' },
   { id: 'silver', name: 'SILVER SHELL', label: '실버 셸', accent: '#51566d', bg1: '#eef0f4', bg2: '#cdd3df' },
