@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SIGNAL by @COLT — SF 자기소개표 메이커</title><meta name="description" content="나만의 신호를 담은 자기소개표. 색상, 이미지, 텍스트를 자유롭게 편집하고 PNG로 저장하세요."><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="style.css"><script src="app.js" defer></script></head>
+<body>
+<header class="app-header"><a class="brand" href="./" aria-label="SIGNAL 홈"><span class="brand-symbol">S/</span> SIGNAL<span class="brand-sub">HUD PROFILE STUDIO</span></a><div class="header-actions"><button id="help" class="quiet">사용 가이드 <span>?</span></button><button id="export" class="primary"><svg viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 15v5h16v-5"/></svg>PNG 저장</button></div></header>
+<main class="workspace">
+<aside class="editor"><div class="editor-title"><span class="eyebrow">CONTROL PANEL</span><h1>자기소개표 만들기<span>01 / EDIT</span></h1></div>
+<nav class="tabs" aria-label="편집 메뉴"><button data-tab="profile" class="active">프로필</button><button data-tab="images">이미지</button><button data-tab="style">디자인</button><button data-tab="stickers">스티커</button></nav>
+<div class="panel" id="panel-profile">
+<div class="section-title"><span>01</span> 기본 정보</div>
+<label>이름 / 닉네임<input id="name" maxlength="24" value="YOUR NAME" placeholder="닉네임을 입력하세요"></label>
+<label>아이디<input id="handle" maxlength="40" value="@your_id"></label>
+<label>한 줄 소개<input id="tagline" maxlength="65" value="당신의 취향을 이곳에 기록하세요."></label>
+<label>연락 방법<input id="contact" maxlength="65" value="편하게 DM 또는 멘션 주세요."></label>
+<div class="section-title"><span>02</span> 나의 성향</div>
+<div id="tag-controls"></div>
+<label>이별 시 안내<input id="farewell" maxlength="65" value="재연결 OK · 편하게 찾아와 주세요."></label>
+<div class="section-title"><span>03</span> 더 알아보기</div>
+<label>INFO · 자기소개<textarea id="info" maxlength="220" rows="4">좋아하는 이야기를 나누고,\n취향이 닿는 사람들과 함께합니다.</textarea><small>최대 220자 · 줄바꿈 가능</small></label>
+<label>NG · 주의 사항<textarea id="ng" maxlength="220" rows="4">서로의 취향과 경계를 존중해 주세요.</textarea></label>
+<label>이미지 섹션 제목<input id="galleryTitle" maxlength="40" value="좋아하는 것들"></label>
+<label>이미지 출처<input id="credit" maxlength="85" placeholder="작가명 또는 이미지 출처를 적어 주세요"></label>
+</div>
+<div class="panel" id="panel-images" hidden><div class="section-title"><span>01</span> 프로필 이미지</div><button class="upload-zone" id="upload-avatar"><span>＋</span> 이미지 업로드<small>PNG, JPG, WEBP · 최대 10MB</small></button><div id="avatar-tools" hidden></div><div class="section-title"><span>02</span> 좋아하는 것들 <span id="image-count"></span></div><p class="hint">장르, 페어, 캐릭터 등 원하는 이미지를 넣어 주세요. 이미지마다 캡션을 설정할 수 있어요.</p><div id="gallery-controls"></div><button class="outline full" id="add-image">＋ 이미지 칸 추가</button></div>
+<div class="panel" id="panel-style" hidden><div class="section-title"><span>01</span> 레이아웃</div><div class="segmented"><button data-layout="landscape" class="selected">▭ 가로형</button><button data-layout="portrait">▯ 세로형</button></div><div class="section-title"><span>02</span> 테마 프리셋</div><div id="theme-presets" class="theme-presets" aria-label="테마 프리셋"></div><p class="hint theme-hint">포인트 · 배경 · 글자 · 프레임이 함께 바뀝니다.</p><div class="section-title"><span>03</span> 세부 색상</div><label>포인트 색상<div class="color-field"><input type="color" id="accent" value="#ef5948" aria-label="포인트 색상 선택"><input id="accent-hex" value="#EF5948" maxlength="7" aria-label="포인트 색상 HEX"></div></label><label>배경 · 그라데이션 시작<div class="color-field"><input type="color" id="bg1" value="#111318" aria-label="배경 시작 색상"><input id="bg1-hex" value="#111318" maxlength="7" aria-label="배경 시작 HEX"></div></label><label>배경 · 그라데이션 끝<div class="color-field"><input type="color" id="bg2" value="#090a0d" aria-label="배경 끝 색상"><input id="bg2-hex" value="#090A0D" maxlength="7" aria-label="배경 끝 HEX"></div></label><label class="check"><input type="checkbox" id="grid" checked> 배경 그리드</label><label class="check"><input type="checkbox" id="mono"> 업로드 이미지 흑백 처리</label><label>글자 크기 <output id="font-value">100%</output><input type="range" min="90" max="120" value="100" id="fontScale"></label><button class="outline full" id="reset-colors">선택한 테마 색상 복원</button></div>
+<div class="panel" id="panel-stickers" hidden><div class="section-title"><span>01</span> 스티커</div><p class="hint">투명 PNG를 올려 자유롭게 배치하세요. 미리보기에서 드래그하거나 아래에서 위치와 크기를 조절할 수 있어요.</p><button class="upload-zone" id="upload-sticker"><span>＋</span> 스티커 업로드<small>투명 PNG 권장 · 최대 10MB</small></button><div id="sticker-controls"></div></div>
+<div class="editor-bottom"><span>브라우저 안에서만 편집됩니다.</span><button id="reset" class="quiet">전체 초기화 ↺</button></div></aside>
+<section class="preview" aria-label="자기소개표 미리보기"><div class="preview-toolbar"><div><span class="eyebrow">LIVE PREVIEW</span><span class="preview-mode">실시간 미리보기</span></div><div class="segmented small"><button data-layout="landscape" class="selected">▭ 가로형</button><button data-layout="portrait">▯ 세로형</button></div></div><div class="stage" id="stage"><div class="canvas-meta"><span>PROFILE / <b id="layout-label">LANDSCAPE</b></span><span id="dimensions">1200 × 760 PX</span></div><div class="canvas-wrap" id="canvas-wrap"><canvas id="card" role="img" aria-label="자기소개표 미리보기. 왼쪽 편집 메뉴에서 모든 내용을 수정할 수 있습니다."></canvas></div><div class="canvas-foot"><span><i></i> 텍스트를 누르면 해당 항목으로 이동합니다.</span><span id="scale-label">화면에 맞춤</span></div></div><footer class="preview-footer"><span><b>↔</b> 이미지 드래그로 위치 조절</span><span><b>⊕</b> 마우스 휠로 확대·축소</span><span>저장 시 편집 안내는 제외됩니다.</span></footer></section>
+</main>
+<input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" hidden>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<dialog id="help-dialog"><button class="dialog-close quiet" aria-label="가이드 닫기">×</button><span class="eyebrow">QUICK GUIDE</span><h2>나만의 자기소개표, 네 단계로.</h2><ol><li><b>프로필 작성</b><p>이름과 소개를 입력하고, 성향 태그를 선택하세요. 직접 태그를 추가할 수도 있습니다.</p></li><li><b>이미지 배치</b><p>프로필과 취향 이미지를 올리세요. 드래그로 위치, 휠 또는 슬라이더로 확대를 조절합니다.</p></li><li><b>스타일 설정</b><p>가로·세로 레이아웃, 배경과 포인트가 어우러진 테마를 선택하고 PNG 스티커로 꾸미세요.</p></li><li><b>PNG 저장</b><p>현재 미리보기 그대로 2배 해상도의 PNG로 저장됩니다. 새로고침하면 편집 내용이 초기화됩니다.</p></li></ol><button class="primary full dialog-close">편집 시작하기</button></dialog>
+<dialog id="reset-dialog"><h2>전체 내용을 초기화할까요?</h2><p>업로드한 이미지와 입력한 내용을 되돌릴 수 없습니다.</p><div class="dialog-buttons"><button class="outline" id="cancel-reset">취소</button><button class="primary" id="confirm-reset">초기화</button></div></dialog>
+</body></html>
