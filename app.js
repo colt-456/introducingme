@@ -681,7 +681,7 @@ function draw(forExport = false) {
     const logoW = 35; // 로고 가로 크기 지정
     const logoH = logoW * (coltLogo.naturalHeight / coltLogo.naturalWidth);
     const logoX = W - 48 - logoW; // 우측 여백 정렬
-    const logoY = 60; // 텍스트 바로 아래 배치
+    const logoY = 80; // 텍스트 바로 아래 배치
 
     // 포인트 컬러로 색상을 변경하기 위한 임시 캔버스 활용
     const tmpCanvas = document.createElement('canvas');
