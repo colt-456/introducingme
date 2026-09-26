@@ -33,8 +33,8 @@ const FIELD_META = {
 
 const DEFAULT_SIZES = {
   name: 40, handle: 16, tagline: 16, contact: 14, 
-  farewell: 13, genre: 16, info: 17, ng: 17, 
-  galleryTitle: 16, credit: 12
+  farewell: 13, genre: 14, info: 14, ng: 14, 
+  galleryTitle: 14, credit: 12
 };
 
 const emptyImage = () => ({
@@ -125,15 +125,19 @@ const initial = () => ({
   sizes: { ...DEFAULT_SIZES }, edited: {}, 
   avatar: emptyImage(), gallery: [emptyImage(), emptyImage()], stickers: [], 
   groups: [
-    { id: 'age', label: '연령', single: true, options: ['성인', '미성년', '비공개'], selected: ['비공개'] },
-    { id: 'tweet', label: '트윗 성향', options: ['RT', '마음', '소비', '연성', '탐라대화', '일상', '드림'], selected: ['마음', '일상'] },
-    { id: 'leave', label: '이별 방법', options: ['블락', '블언블', '뮤트'], selected: ['블언블'] }
+    { id: 'age', label: 'AGE', single: true, options: ['성인', '미성년', '비공개'], selected: ['비공개'] },
+    { id: 'tweet', label: 'TENDENCY', options: ['RT', '마음', '소비', '연성', '탐라대화', '일상', '드림'], selected: ['마음', '일상'] },
+    { id: 'leave', label: 'FAREWELL', options: ['블락', '블언블', '뮤트'], selected: ['블언블'], noAdd: true }
   ]
 });
 
 let state = initial(), hits = [], W = 1200, H = 760, currentTab = 'style', 
     pendingUpload = null, drag = null, toastTimer;
 let activeEdit = null, selectedField = 'info', exporting = false, fontSequence = 0;
+
+const coltLogo = new Image();
+coltLogo.src = 'colt_logo.svg';
+coltLogo.onload = () => { if (typeof draw === 'function') draw(); };
 
 function toast(message) {
   $('toast').textContent = message;
@@ -270,7 +274,7 @@ function setValue(key, value) {
 }
 
 function sizeOf(key) {
-  return state.sizes[key] ?? (key.endsWith(':caption') ? 14 : key.endsWith(':title') ? 16 : 17);
+  return state.sizes[key] ?? (key.endsWith(':caption') ? 12 : key.endsWith(':title') ? 14 : 14);
 }
 
 function linesFor(s, width, size) {
@@ -439,7 +443,7 @@ function tagLayout(g, max) {
   const points = [];
   let xx = 0, yy = 25;
   for (const value of g.options) {
-    ctx.font = `400 14px ${g.custom?.includes(value) ? contentFont() : mono}`;
+    ctx.font = `400 14px ${mono}`;
     const tw = ctx.measureText(value).width + 24;
     if (xx + tw > max) {
       xx = 0;
@@ -448,7 +452,7 @@ function tagLayout(g, max) {
     points.push({ value, x: xx, y: yy, w: tw });
     xx += tw + 7;
   }
-  if (!g.single) {
+  if (!g.single && !g.noAdd) {
     if (xx + 28 > max) {
       xx = 0;
       yy += 37;
@@ -459,7 +463,7 @@ function tagLayout(g, max) {
 }
 
 function drawTags(g, x, y, max) {
-  text(g.label, x, y, 12, palette.muted);
+  text(g.label, x, y, 14, state.accent, mono, 600);
   const layout = tagLayout(g, max);
   
   layout.points.forEach(p => {
@@ -474,7 +478,7 @@ function drawTags(g, x, y, max) {
       p.add ? '＋' : p.value, 
       xx + (p.add ? 6 : 12), yy + 5, 14, 
       selected ? state.accent : palette.muted, 
-      g.custom?.includes(p.value) ? contentFont() : mono
+      mono
     );
     
     addHit(xx, yy, tw, 28, p.add ? 'tagadd' : 'tag', p.add ? `tagadd:${g.id}` : { group: g.id, value: p.value });
@@ -615,7 +619,7 @@ function draw(forExport = false) {
   state.groups.forEach(g => { ty = drawTags(g, tx, ty, tagW) });
   
   userField('farewell', tx, farewellY, tagW, 0, palette.muted);
-  text('장르', tx, genreY, 12, palette.muted);
+  text('GENRE', tx, genreY, 14, state.accent, mono, 600);
   frame(tx, genreY + 24, tagW, genreH, palette.panel, palette.line, 9);
   line(tx, genreY + 40, tx, genreY + 58, state.accent, 2);
   userField('genre', tx + 14, genreY + 38, tagW - 28, genreH - 28);
@@ -671,6 +675,27 @@ function draw(forExport = false) {
   ctx.textAlign = 'right';
   text('CREATED BY @COLT', W - 48, 45, 10, palette.muted);
   ctx.textAlign = 'left';
+
+  // 로고 그리기 로직 추가
+  if (coltLogo.complete && coltLogo.naturalWidth > 0) {
+    const logoW = 35; // 로고 가로 크기 지정
+    const logoH = logoW * (coltLogo.naturalHeight / coltLogo.naturalWidth);
+    const logoX = W - 48 - logoW; // 우측 여백 정렬
+    const logoY = 60; // 텍스트 바로 아래 배치
+
+    // 포인트 컬러로 색상을 변경하기 위한 임시 캔버스 활용
+    const tmpCanvas = document.createElement('canvas');
+    tmpCanvas.width = logoW;
+    tmpCanvas.height = logoH;
+    const tCtx = tmpCanvas.getContext('2d');
+    
+    tCtx.drawImage(coltLogo, 0, 0, logoW, logoH);
+    tCtx.globalCompositeOperation = 'source-in';
+    tCtx.fillStyle = state.accent; // 현재 설정된 포인트 컬러
+    tCtx.fillRect(0, 0, logoW, logoH);
+
+    ctx.drawImage(tmpCanvas, logoX, logoY);
+  }
   
   $('dimensions').textContent = `${W} × ${H} PX`;
   $('scale-label').textContent = `PNG · ${W * 2} × ${H * 2}`;
@@ -1118,7 +1143,7 @@ function beginEdit(key) {
   
   const input = $('inline-editor');
   input.value = isTag ? '' : valueOf(key);
-  input.maxLength = fieldInfo(key)[1];
+  input.removeAttribute('maxLength');
   input.setAttribute('aria-label', fieldInfo(key)[0] + ' 직접 편집');
   input.hidden = false;
   
