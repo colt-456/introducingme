@@ -678,7 +678,7 @@ function draw(forExport = false) {
 
   // 로고 그리기 로직 추가
   if (coltLogo.complete && coltLogo.naturalWidth > 0) {
-    const logoW = 35; // 로고 가로 크기 지정
+    const logoW = 45; // 로고 가로 크기 지정
     const logoH = logoW * (coltLogo.naturalHeight / coltLogo.naturalWidth);
     const logoX = W - 48 - logoW; // 우측 여백 정렬
     const logoY = 80; // 텍스트 바로 아래 배치
